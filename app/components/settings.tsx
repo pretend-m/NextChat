@@ -11,9 +11,6 @@ import LoadingIcon from "../icons/three-dots.svg";
 import EditIcon from "../icons/edit.svg";
 import FireIcon from "../icons/fire.svg";
 import EyeIcon from "../icons/eye.svg";
-import DownloadIcon from "../icons/download.svg";
-import UploadIcon from "../icons/upload.svg";
-import ConfigIcon from "../icons/config.svg";
 import ConfirmIcon from "../icons/confirm.svg";
 
 import ConnectionIcon from "../icons/connection.svg";
@@ -29,7 +26,6 @@ import {
   Popover,
   Select,
   showConfirm,
-  showToast,
 } from "./ui-lib";
 import { ModelConfigList } from "./model-config";
 
@@ -43,14 +39,8 @@ import {
   useAppConfig,
 } from "../store";
 
-import Locale, {
-  AllLangs,
-  ALL_LANG_OPTIONS,
-  changeLang,
-  getLang,
-} from "../locales";
-import { copyToClipboard, clientUpdate, semverCompare } from "../utils";
-import Link from "next/link";
+import Locale from "../locales";
+import { copyToClipboard, semverCompare } from "../utils";
 import {
   Anthropic,
   Azure,
@@ -508,76 +498,76 @@ function SyncItems() {
     };
   }, [chatStore.sessions, maskStore.masks, promptStore.prompts]);
 
-  return (
-    <>
-      <List>
-        <ListItem
-          title={Locale.Settings.Sync.CloudState}
-          subTitle={
-            syncStore.lastProvider
-              ? `${new Date(syncStore.lastSyncTime).toLocaleString()} [${
-                  syncStore.lastProvider
-                }]`
-              : Locale.Settings.Sync.NotSyncYet
-          }
-        >
-          <div style={{ display: "flex" }}>
-            <IconButton
-              aria={Locale.Settings.Sync.CloudState + Locale.UI.Config}
-              icon={<ConfigIcon />}
-              text={Locale.UI.Config}
-              onClick={() => {
-                setShowSyncConfigModal(true);
-              }}
-            />
-            {couldSync && (
-              <IconButton
-                icon={<ResetIcon />}
-                text={Locale.UI.Sync}
-                onClick={async () => {
-                  try {
-                    await syncStore.sync();
-                    showToast(Locale.Settings.Sync.Success);
-                  } catch (e) {
-                    showToast(Locale.Settings.Sync.Fail);
-                    console.error("[Sync]", e);
-                  }
-                }}
-              />
-            )}
-          </div>
-        </ListItem>
-
-        <ListItem
-          title={Locale.Settings.Sync.LocalState}
-          subTitle={Locale.Settings.Sync.Overview(stateOverview)}
-        >
-          <div style={{ display: "flex" }}>
-            <IconButton
-              aria={Locale.Settings.Sync.LocalState + Locale.UI.Export}
-              icon={<UploadIcon />}
-              text={Locale.UI.Export}
-              onClick={() => {
-                syncStore.export();
-              }}
-            />
-            <IconButton
-              aria={Locale.Settings.Sync.LocalState + Locale.UI.Import}
-              icon={<DownloadIcon />}
-              text={Locale.UI.Import}
-              onClick={() => {
-                syncStore.import();
-              }}
-            />
-          </div>
-        </ListItem>
-      </List>
-
-      {showSyncConfigModal && (
-        <SyncConfigModal onClose={() => setShowSyncConfigModal(false)} />
-      )}
-    </>
-  );
+  // return (
+  //   <>
+  //     <List>
+  //       <ListItem
+  //         title={Locale.Settings.Sync.CloudState}
+  //         subTitle={
+  //           syncStore.lastProvider
+  //             ? `${new Date(syncStore.lastSyncTime).toLocaleString()} [${
+  //                 syncStore.lastProvider
+  //               }]`
+  //             : Locale.Settings.Sync.NotSyncYet
+  //         }
+  //       >
+  //         <div style={{ display: "flex" }}>
+  //           <IconButton
+  //             aria={Locale.Settings.Sync.CloudState + Locale.UI.Config}
+  //             icon={<ConfigIcon />}
+  //             text={Locale.UI.Config}
+  //             onClick={() => {
+  //               setShowSyncConfigModal(true);
+  //             }}
+  //           />
+  //           {couldSync && (
+  //             <IconButton
+  //               icon={<ResetIcon />}
+  //               text={Locale.UI.Sync}
+  //               onClick={async () => {
+  //                 try {
+  //                   await syncStore.sync();
+  //                   showToast(Locale.Settings.Sync.Success);
+  //                 } catch (e) {
+  //                   showToast(Locale.Settings.Sync.Fail);
+  //                   console.error("[Sync]", e);
+  //                 }
+  //               }}
+  //             />
+  //           )}
+  //         </div>
+  //       </ListItem>
+  //
+  //       <ListItem
+  //         title={Locale.Settings.Sync.LocalState}
+  //         subTitle={Locale.Settings.Sync.Overview(stateOverview)}
+  //       >
+  //         <div style={{ display: "flex" }}>
+  //           <IconButton
+  //             aria={Locale.Settings.Sync.LocalState + Locale.UI.Export}
+  //             icon={<UploadIcon />}
+  //             text={Locale.UI.Export}
+  //             onClick={() => {
+  //               syncStore.export();
+  //             }}
+  //           />
+  //           <IconButton
+  //             aria={Locale.Settings.Sync.LocalState + Locale.UI.Import}
+  //             icon={<DownloadIcon />}
+  //             text={Locale.UI.Import}
+  //             onClick={() => {
+  //               syncStore.import();
+  //             }}
+  //           />
+  //         </div>
+  //       </ListItem>
+  //     </List>
+  //
+  //     {showSyncConfigModal && (
+  //       <SyncConfigModal onClose={() => setShowSyncConfigModal(false)} />
+  //     )}
+  //   </>
+  // );
 }
 
 export function Settings() {
@@ -1510,38 +1500,38 @@ export function Settings() {
             </Popover>
           </ListItem>
 
-          <ListItem
-            title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
-            subTitle={
-              checkingUpdate
-                ? Locale.Settings.Update.IsChecking
-                : hasNewVersion
-                ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
-                : Locale.Settings.Update.IsLatest
-            }
-          >
-            {checkingUpdate ? (
-              <LoadingIcon />
-            ) : hasNewVersion ? (
-              clientConfig?.isApp ? (
-                <IconButton
-                  icon={<ResetIcon></ResetIcon>}
-                  text={Locale.Settings.Update.GoToUpdate}
-                  onClick={() => clientUpdate()}
-                />
-              ) : (
-                <Link href={updateUrl} target="_blank" className="link">
-                  {Locale.Settings.Update.GoToUpdate}
-                </Link>
-              )
-            ) : (
-              <IconButton
-                icon={<ResetIcon></ResetIcon>}
-                text={Locale.Settings.Update.CheckUpdate}
-                onClick={() => checkUpdate(true)}
-              />
-            )}
-          </ListItem>
+          {/*<ListItem*/}
+          {/*  title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}*/}
+          {/*  subTitle={*/}
+          {/*    checkingUpdate*/}
+          {/*      ? Locale.Settings.Update.IsChecking*/}
+          {/*      : hasNewVersion*/}
+          {/*      ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")*/}
+          {/*      : Locale.Settings.Update.IsLatest*/}
+          {/*  }*/}
+          {/*>*/}
+          {/*  {checkingUpdate ? (*/}
+          {/*    <LoadingIcon />*/}
+          {/*  ) : hasNewVersion ? (*/}
+          {/*    clientConfig?.isApp ? (*/}
+          {/*      <IconButton*/}
+          {/*        icon={<ResetIcon></ResetIcon>}*/}
+          {/*        text={Locale.Settings.Update.GoToUpdate}*/}
+          {/*        onClick={() => clientUpdate()}*/}
+          {/*      />*/}
+          {/*    ) : (*/}
+          {/*      <Link href={updateUrl} target="_blank" className="link">*/}
+          {/*        {Locale.Settings.Update.GoToUpdate}*/}
+          {/*      </Link>*/}
+          {/*    )*/}
+          {/*  ) : (*/}
+          {/*    <IconButton*/}
+          {/*      icon={<ResetIcon></ResetIcon>}*/}
+          {/*      text={Locale.Settings.Update.CheckUpdate}*/}
+          {/*      onClick={() => checkUpdate(true)}*/}
+          {/*    />*/}
+          {/*  )}*/}
+          {/*</ListItem>*/}
 
           <ListItem title={Locale.Settings.SendKey}>
             <Select
@@ -1580,21 +1570,21 @@ export function Settings() {
             </Select>
           </ListItem>
 
-          <ListItem title={Locale.Settings.Lang.Name}>
-            <Select
-              aria-label={Locale.Settings.Lang.Name}
-              value={getLang()}
-              onChange={(e) => {
-                changeLang(e.target.value as any);
-              }}
-            >
-              {AllLangs.map((lang) => (
-                <option value={lang} key={lang}>
-                  {ALL_LANG_OPTIONS[lang]}
-                </option>
-              ))}
-            </Select>
-          </ListItem>
+          {/*<ListItem title={Locale.Settings.Lang.Name}>*/}
+          {/*  <Select*/}
+          {/*    aria-label={Locale.Settings.Lang.Name}*/}
+          {/*    value={getLang()}*/}
+          {/*    onChange={(e) => {*/}
+          {/*      changeLang(e.target.value as any);*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    {AllLangs.map((lang) => (*/}
+          {/*      <option value={lang} key={lang}>*/}
+          {/*        {ALL_LANG_OPTIONS[lang]}*/}
+          {/*      </option>*/}
+          {/*    ))}*/}
+          {/*  </Select>*/}
+          {/*</ListItem>*/}
 
           <ListItem
             title={Locale.Settings.FontSize.Title}
@@ -1701,7 +1691,7 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <SyncItems />
+        {/*<SyncItems />*/}
 
         <List>
           <ListItem
@@ -1775,12 +1765,12 @@ export function Settings() {
         </List>
 
         <List id={SlotID.CustomModel}>
-          {saasStartComponent}
+          {/*{saasStartComponent}*/}
           {accessCodeComponent}
 
           {!accessStore.hideUserApiKey && (
             <>
-              {useCustomConfigComponent}
+              {/*{useCustomConfigComponent}*/}
 
               {accessStore.useCustomConfig && (
                 <>
@@ -1853,24 +1843,24 @@ export function Settings() {
             </ListItem>
           ) : null}
 
-          <ListItem
-            title={Locale.Settings.Access.CustomModel.Title}
-            subTitle={Locale.Settings.Access.CustomModel.SubTitle}
-            vertical={true}
-          >
-            <input
-              aria-label={Locale.Settings.Access.CustomModel.Title}
-              style={{ width: "100%", maxWidth: "unset", textAlign: "left" }}
-              type="text"
-              value={config.customModels}
-              placeholder="model1,model2,model3"
-              onChange={(e) =>
-                config.update(
-                  (config) => (config.customModels = e.currentTarget.value),
-                )
-              }
-            ></input>
-          </ListItem>
+          {/*<ListItem*/}
+          {/*  title={Locale.Settings.Access.CustomModel.Title}*/}
+          {/*  subTitle={Locale.Settings.Access.CustomModel.SubTitle}*/}
+          {/*  vertical={true}*/}
+          {/*>*/}
+          {/*  <input*/}
+          {/*    aria-label={Locale.Settings.Access.CustomModel.Title}*/}
+          {/*    style={{ width: "100%", maxWidth: "unset", textAlign: "left" }}*/}
+          {/*    type="text"*/}
+          {/*    value={config.customModels}*/}
+          {/*    placeholder="model1,model2,model3"*/}
+          {/*    onChange={(e) =>*/}
+          {/*      config.update(*/}
+          {/*        (config) => (config.customModels = e.currentTarget.value),*/}
+          {/*      )*/}
+          {/*    }*/}
+          {/*  ></input>*/}
+          {/*</ListItem>*/}
         </List>
 
         <List>

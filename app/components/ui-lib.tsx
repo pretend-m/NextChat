@@ -587,3 +587,62 @@ export function FullScreen(props: any) {
     </div>
   );
 }
+export function showUpdate() {
+  const div = document.createElement("div");
+  div.className = "modal-mask";
+  document.body.appendChild(div);
+
+  const root = createRoot(div);
+  const closeModal = () => {
+    root.unmount();
+    div.remove();
+  };
+
+  return new Promise<boolean>((resolve) => {
+    root.render(
+      <Modal
+        title={Locale.UI.Confirm}
+        actions={[
+          <IconButton
+            key="confirm"
+            text="关闭"
+            type="primary"
+            onClick={() => {
+              resolve(true);
+              closeModal();
+            }}
+            tabIndex={0}
+            autoFocus
+            bordered
+            shadow
+          ></IconButton>,
+        ]}
+        onClose={closeModal}
+      >
+        <div>
+          当前支持:
+          <br />
+          1.openai系列模型(ChatGPT)
+          <br />
+          2.bytedance系列模型(抖音豆包)
+          <br />
+          3.claude系列模型
+          <br />
+          4.dall-e-3模型(文生图)
+          <br />
+          5.deepseek系列模型
+        </div>
+        <br />
+        <div>
+          2025-02-28更新:
+          <br />
+          1.新增deepseek系列模型
+          <br />
+          2.新增openai系列o3-mini,o3-mini-2025-01-31模型
+          <br />
+          3.新增claude系列claude-3-7-sonnet,claude-3-7-sonnet-20250219,claude-3-7-sonnet-20250219-thinking模型
+        </div>
+      </Modal>,
+    );
+  });
+}
