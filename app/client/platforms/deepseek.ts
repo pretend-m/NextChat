@@ -163,10 +163,11 @@ export class DeepSeekApi implements LLMApi {
             const reasoning = choices[0]?.delta?.reasoning_content;
             const content = choices[0]?.delta?.content;
 
-            // Skip if both content and reasoning_content are empty or null
+            // 处理特殊的格式情况
             if (
-              (!reasoning || reasoning.length === 0) &&
-              (!content || content.length === 0)
+                ((!reasoning || reasoning.length === 0) && (!content || content.length === 0))
+                || (!content && reasoning === ("\n"))
+                || (!reasoning && content === ("\n```\n"))
             ) {
               return {
                 isThinking: false,

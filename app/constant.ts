@@ -607,7 +607,6 @@ const deepseekModels = [
   "deepseek-r1-search",
   "deepseek-v3",
   "deepseek-v3-search",
-  "deepseek-chat",
   "deepseek-reasoner",
 ];
 
