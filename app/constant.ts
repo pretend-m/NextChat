@@ -604,9 +604,9 @@ const bytedanceModels = [
 
 const deepseekModels = [
   "deepseek-r1",
-  "deepseek-r1-search",
+  // "deepseek-r1-search",
   "deepseek-v3",
-  "deepseek-v3-search",
+  // "deepseek-v3-search",
   "deepseek-reasoner",
 ];
 
