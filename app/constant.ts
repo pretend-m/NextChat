@@ -545,25 +545,25 @@ const openaiModels = [
 //   "gemini-2.0-pro-exp-02-05",
 // ];
 
-const anthropicModels = [
-  "claude-2",
-  "claude-2.0",
-  "claude-2.1",
-  "claude-3-5-sonnet",
-  "claude-3-5-sonnet-20240620",
-  "claude-3-haiku",
-  "claude-3-haiku-20240307",
-  "claude-3-opus",
-  "claude-3-opus-20240229",
-  "claude-3-sonnet",
-  "claude-3-sonnet-20240229",
-  "claude-3-5-haiku",
-  "claude-3-5-haiku-20241022",
-  "claude-instant-1.2",
-  "claude-3-7-sonnet",
-  "claude-3-7-sonnet-20250219",
-  "claude-3-7-sonnet-20250219-thinking",
-];
+// const anthropicModels = [
+//   "claude-2",
+//   "claude-2.0",
+//   "claude-2.1",
+//   "claude-3-5-sonnet",
+//   "claude-3-5-sonnet-20240620",
+//   "claude-3-haiku",
+//   "claude-3-haiku-20240307",
+//   "claude-3-opus",
+//   "claude-3-opus-20240229",
+//   "claude-3-sonnet",
+//   "claude-3-sonnet-20240229",
+//   "claude-3-5-haiku",
+//   "claude-3-5-haiku-20241022",
+//   "claude-instant-1.2",
+//   "claude-3-7-sonnet",
+//   "claude-3-7-sonnet-20250219",
+//   "claude-3-7-sonnet-20250219-thinking",
+// ];
 
 // const baiduModels = [
 //   "ernie-4.0-turbo-8k",
@@ -579,14 +579,14 @@ const anthropicModels = [
 //   "ernie-tiny-8k",
 // ];
 
-const bytedanceModels = [
-  "Doubao-lite-4k",
-  "Doubao-lite-32k",
-  "Doubao-lite-128k",
-  "Doubao-pro-4k",
-  "Doubao-pro-32k",
-  "Doubao-pro-128k",
-];
+// const bytedanceModels = [
+//   "Doubao-lite-4k",
+//   "Doubao-lite-32k",
+//   "Doubao-lite-128k",
+//   "Doubao-pro-4k",
+//   "Doubao-pro-32k",
+//   "Doubao-pro-128k",
+// ];
 //
 // const alibabaModes = [
 //   "qwen-turbo",
